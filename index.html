@@ -112,15 +112,36 @@
       <a href="#destinations" class="nav-link font-body text-sm font-medium text-white/90 hover:text-white transition-colors">Destinations</a>
       <a href="#how-it-works" class="nav-link font-body text-sm font-medium text-white/90 hover:text-white transition-colors">How It Works</a>
       <a href="#features"     class="nav-link font-body text-sm font-medium text-white/90 hover:text-white transition-colors">Features</a>
+      <a href="partner.html"  class="nav-link font-body text-sm font-medium text-ocean-light hover:text-white transition-colors">Partners</a>
     </div>
 
-    <!-- CTA -->
+    <!-- Desktop CTA -->
     <a href="#early-access"
-       class="bg-terracotta text-white px-6 py-2.5 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors">
+       class="hidden md:block bg-terracotta text-white px-6 py-2.5 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors">
       Join Waitlist
     </a>
+
+    <!-- Mobile burger -->
+    <button id="burger" class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-[5px]" aria-label="Open menu">
+      <span class="burger-line block w-6 h-[1.5px] bg-white transition-all duration-300"></span>
+      <span class="burger-line block w-6 h-[1.5px] bg-white transition-all duration-300"></span>
+      <span class="burger-line block w-6 h-[1.5px] bg-white transition-all duration-300"></span>
+    </button>
   </div>
 </nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col justify-center items-center bg-ocean-deep/97 backdrop-blur-md translate-x-full transition-transform duration-400 md:hidden">
+  <nav class="flex flex-col items-center gap-8 text-center">
+    <a href="#destinations" class="mobile-link font-headline text-4xl font-bold text-white hover:text-ocean-light transition-colors">Destinations</a>
+    <a href="#how-it-works" class="mobile-link font-headline text-4xl font-bold text-white hover:text-ocean-light transition-colors">How It Works</a>
+    <a href="#features"     class="mobile-link font-headline text-4xl font-bold text-white hover:text-ocean-light transition-colors">Features</a>
+    <a href="partner.html"  class="mobile-link font-headline text-4xl font-bold text-ocean-light hover:text-white transition-colors">Partners</a>
+    <a href="#early-access" class="mobile-link mt-4 bg-terracotta text-white px-10 py-4 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors">
+      Join Waitlist
+    </a>
+  </nav>
+</div>
 
 <!-- ─── HERO ──────────────────────────────────────────────────────────── -->
 <header class="relative h-screen w-full overflow-hidden">
@@ -596,6 +617,35 @@
   }
 
   window.addEventListener('scroll', updateNav, { passive: true });
+
+  // ── Burger menu ──────────────────────────────────────────
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const burgerLines = burger.querySelectorAll('.burger-line');
+
+  function openMenu() {
+    mobileMenu.style.transform = 'translateX(0)';
+    document.body.style.overflow = 'hidden';
+    burgerLines[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+    burgerLines[1].style.opacity = '0';
+    burgerLines[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+  }
+
+  function closeMenu() {
+    mobileMenu.style.transform = 'translateX(100%)';
+    document.body.style.overflow = '';
+    burgerLines[0].style.transform = '';
+    burgerLines[1].style.opacity = '';
+    burgerLines[2].style.transform = '';
+  }
+
+  burger.addEventListener('click', () => {
+    mobileMenu.style.transform === 'translateX(0)' ? closeMenu() : openMenu();
+  });
+
+  mobileMenu.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
 
   // ── Scroll-reveal ────────────────────────────────────────
   const revealObserver = new IntersectionObserver((entries) => {

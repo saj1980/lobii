@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Lobii | Partner with Us</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "ocean-deep":   "#0D2B45",
+            "ocean-mid":    "#1A5F8A",
+            "ocean-bright": "#2E8EC4",
+            "ocean-light":  "#7BBFDC",
+            "ocean-mist":   "#C8E6F4",
+            "sand":         "#F5EDD8",
+            "terracotta":   "#C96B3A",
+            "forest":       "#1E5B3A",
+            "forest-light": "#2D7A52",
+            "purple-deep":  "#5B3A8E",
+            "purple-light": "#7B5BBE",
+          },
+          fontFamily: {
+            headline: ["Cormorant", "Georgia", "serif"],
+            body:     ["DM Sans", "sans-serif"],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: "DM Sans", sans-serif; }
+    h1, h2, h3, h4 { font-family: "Cormorant", Georgia, serif; }
+
+    .hero-overlay {
+      background: linear-gradient(160deg, rgba(13,43,69,0.92) 0%, rgba(13,43,69,0.72) 55%, rgba(13,43,69,0.88) 100%);
+    }
+    .glass {
+      background: rgba(245,237,216,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .glass-dark {
+      background: rgba(13,43,69,0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .hero-text-shadow {
+      text-shadow: 0 2px 40px rgba(0,0,0,0.6), 0 1px 8px rgba(0,0,0,0.4);
+    }
+    .nav-scrolled {
+      background: rgba(245,237,216,0.94) !important;
+      box-shadow: 0 1px 24px rgba(13,43,69,0.08);
+    }
+
+    /* ── Scroll-reveal animations ───────────────────────── */
+    [data-reveal] {
+      opacity: 0;
+      transition: opacity 0.75s ease, transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    [data-reveal="up"]    { transform: translateY(56px); }
+    [data-reveal="left"]  { transform: translateX(-64px); }
+    [data-reveal="right"] { transform: translateX(64px); }
+    [data-reveal].in-view { opacity: 1; transform: translate(0, 0); }
+
+    .step-number {
+      font-family: "Cormorant", serif;
+      font-size: 5rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #C8E6F4;
+    }
+
+    /* Animated underline for nav links */
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: #2E8EC4;
+      transition: width 0.25s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Partner type color accents */
+    .hotel-accent    { color: #2E8EC4; }
+    .home-accent     { color: #2D7A52; }
+    .padel-accent    { color: #7B5BBE; }
+
+    .hotel-bg        { background: #0D2B45; }
+    .home-bg         { background: #1E5B3A; }
+    .padel-bg        { background: #5B3A8E; }
+
+    .hotel-border    { border-color: #2E8EC4; }
+    .home-border     { border-color: #2D7A52; }
+    .padel-border    { border-color: #7B5BBE; }
+
+    .bullet-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+  </style>
+</head>
+<body class="bg-sand text-ocean-deep overflow-x-hidden">
+
+<!-- ─── NAV ──────────────────────────────────────────────────────────── -->
+<nav id="nav" class="fixed top-0 w-full z-50 transition-all duration-300" style="background: transparent;">
+  <div class="flex justify-between items-center px-6 md:px-12 py-5 max-w-screen-2xl mx-auto">
+    <!-- Logo -->
+    <a href="index.html" class="flex items-center gap-2">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#0D2B45"/>
+        <text x="7" y="24" font-family="Cormorant, serif" font-size="22" font-weight="700" fill="#F5EDD8">L</text>
+        <circle cx="22" cy="8" r="2.8" fill="#2E8EC4"/>
+        <circle cx="27" cy="8" r="2.8" fill="#C96B3A"/>
+      </svg>
+      <span class="font-headline text-2xl font-bold tracking-tight text-white" id="nav-logo">LOBII</span>
+    </a>
+
+    <!-- Desktop Links -->
+    <div class="hidden md:flex items-center gap-10">
+      <a href="index.html#destinations" class="nav-link font-body text-sm font-medium text-white/90 hover:text-white transition-colors">Destinations</a>
+      <a href="index.html#how-it-works" class="nav-link font-body text-sm font-medium text-white/90 hover:text-white transition-colors">How It Works</a>
+      <a href="index.html#features"     class="nav-link font-body text-sm font-medium text-white/90 hover:text-white transition-colors">Features</a>
+      <a href="partner.html"            class="nav-link font-body text-sm font-medium text-ocean-bright hover:text-ocean-light transition-colors">Partners</a>
+    </div>
+
+    <!-- Desktop CTA -->
+    <a href="index.html#early-access"
+       class="hidden md:block bg-terracotta text-white px-6 py-2.5 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors">
+      Join Waitlist
+    </a>
+
+    <!-- Mobile burger -->
+    <button id="burger" class="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-[5px]" aria-label="Open menu">
+      <span class="burger-line block w-6 h-[1.5px] bg-white transition-all duration-300"></span>
+      <span class="burger-line block w-6 h-[1.5px] bg-white transition-all duration-300"></span>
+      <span class="burger-line block w-6 h-[1.5px] bg-white transition-all duration-300"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col justify-center items-center bg-ocean-deep/97 backdrop-blur-md translate-x-full transition-transform duration-400 md:hidden">
+  <nav class="flex flex-col items-center gap-8 text-center">
+    <a href="index.html#destinations" class="mobile-link font-headline text-4xl font-bold text-white hover:text-ocean-light transition-colors">Destinations</a>
+    <a href="index.html#how-it-works" class="mobile-link font-headline text-4xl font-bold text-white hover:text-ocean-light transition-colors">How It Works</a>
+    <a href="index.html#features"     class="mobile-link font-headline text-4xl font-bold text-white hover:text-ocean-light transition-colors">Features</a>
+    <a href="partner.html"            class="mobile-link font-headline text-4xl font-bold text-ocean-light hover:text-white transition-colors">Partners</a>
+    <a href="index.html#early-access" class="mobile-link mt-4 bg-terracotta text-white px-10 py-4 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors">
+      Join Waitlist
+    </a>
+  </nav>
+</div>
+
+<!-- ─── HERO ──────────────────────────────────────────────────────────── -->
+<header class="relative h-screen w-full overflow-hidden">
+  <img
+    src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1800&q=85&auto=format&fit=crop"
+    alt="Luxury hotel spa pool with resort vibes"
+    class="absolute inset-0 w-full h-full object-cover"
+    onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(145deg,#0D2B45 0%,#1A5F8A 45%,#0D2B45 100%)';"
+  />
+  <div class="absolute inset-0 hero-overlay"></div>
+
+  <div class="relative h-full flex flex-col justify-center px-6 md:px-20 max-w-screen-2xl mx-auto pt-20">
+    <div class="max-w-3xl">
+      <p class="font-body text-xs font-medium uppercase tracking-[0.25em] text-ocean-light mb-6">Partner Information Pack</p>
+      <h1 class="hero-text-shadow font-headline text-[11vw] md:text-[7rem] leading-[0.88] font-bold text-white mb-8">
+        The world is<br/><em>your court.</em>
+      </h1>
+      <p class="font-body text-lg md:text-xl text-white/75 leading-relaxed max-w-xl mb-10">
+        Lobii connects padel players to courts and stays worldwide.<br/>
+        List your property and be discovered by players everywhere.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#partner-types"
+           class="bg-terracotta text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors">
+          View Partner Options
+        </a>
+        <a href="#get-listed"
+           class="border border-white/40 text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-white/10 transition-colors">
+          How to Get Listed
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+    <span class="font-body text-[10px] uppercase tracking-[0.3em] text-white/40">Scroll</span>
+    <div class="w-px h-10 bg-white/20"></div>
+  </div>
+</header>
+
+<!-- ─── PARTNER TYPE OVERVIEW ─────────────────────────────────────────── -->
+<section id="partner-types" class="py-28 px-6 md:px-12">
+  <div class="max-w-screen-xl mx-auto">
+
+    <div class="text-center mb-16" data-reveal="up">
+      <p class="font-body text-xs font-medium uppercase tracking-[0.25em] text-ocean-bright mb-4">Choose Your Type</p>
+      <h2 class="font-headline text-5xl md:text-6xl font-bold text-ocean-deep">Three ways to partner</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Hotel -->
+      <div class="hotel-bg rounded-sm p-8 flex flex-col" data-reveal="up" data-delay="0">
+        <div class="w-3 h-3 rounded-sm bg-ocean-bright mb-8"></div>
+        <h3 class="font-headline text-3xl font-bold text-white mb-3">Hotel</h3>
+        <p class="font-body text-sm text-white/55 leading-relaxed mb-8">
+          Reach padel-loving travelers searching for accommodation near courts worldwide.
+        </p>
+        <div class="mt-auto">
+          <p class="font-headline text-5xl font-bold text-ocean-bright mb-1">€49<span class="text-2xl font-normal text-white/50"> / month</span></p>
+          <p class="font-body text-xs text-white/40 mb-8">+ affiliate commission on referred bookings</p>
+          <a href="#hotel" class="inline-block border border-ocean-bright text-ocean-bright px-6 py-2.5 font-body text-sm hover:bg-ocean-bright hover:text-white transition-all">
+            Learn More →
+          </a>
+        </div>
+      </div>
+
+      <!-- Private Home -->
+      <div class="home-bg rounded-sm p-8 flex flex-col" data-reveal="up" data-delay="100">
+        <div class="w-3 h-3 rounded-sm bg-[#4DB87A] mb-8"></div>
+        <h3 class="font-headline text-3xl font-bold text-white mb-3">Private Home</h3>
+        <p class="font-body text-sm text-white/55 leading-relaxed mb-8">
+          List your villa, apartment, or home and attract padel players looking for the perfect base.
+        </p>
+        <div class="mt-auto">
+          <p class="font-headline text-5xl font-bold text-[#4DB87A] mb-1">€19.95<span class="text-2xl font-normal text-white/50"> / month</span></p>
+          <p class="font-body text-xs text-white/40 mb-8">flat fee — manage your own bookings</p>
+          <a href="#home" class="inline-block border border-[#4DB87A] text-[#4DB87A] px-6 py-2.5 font-body text-sm hover:bg-[#4DB87A] hover:text-white transition-all">
+            Learn More →
+          </a>
+        </div>
+      </div>
+
+      <!-- Padel Center -->
+      <div class="padel-bg rounded-sm p-8 flex flex-col" data-reveal="up" data-delay="200">
+        <div class="w-3 h-3 rounded-sm bg-purple-light mb-8"></div>
+        <h3 class="font-headline text-3xl font-bold text-white mb-3">Padel Center</h3>
+        <p class="font-body text-sm text-white/55 leading-relaxed mb-8">
+          Get discovered by traveling players searching for courts in your city or region.
+        </p>
+        <div class="mt-auto">
+          <p class="font-headline text-5xl font-bold text-purple-light mb-1">€29.95<span class="text-2xl font-normal text-white/50"> / month</span></p>
+          <p class="font-body text-xs text-white/40 mb-8">flat fee — unlimited visibility, no commissions</p>
+          <a href="#padel-center" class="inline-block border border-purple-light text-purple-light px-6 py-2.5 font-body text-sm hover:bg-purple-light hover:text-white transition-all">
+            Learn More →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOTEL SECTION ──────────────────────────────────────────────────── -->
+<section id="hotel" class="py-24 px-6 md:px-12 bg-ocean-deep">
+  <div class="max-w-screen-xl mx-auto">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-6" data-reveal="up">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-3 h-3 rounded-sm bg-ocean-bright"></div>
+          <span class="font-body text-xs font-medium uppercase tracking-[0.25em] text-ocean-bright">Hotel Listing</span>
+        </div>
+        <h2 class="font-headline text-5xl md:text-6xl font-bold text-white">Hotel Partner</h2>
+      </div>
+      <div class="text-left md:text-right">
+        <p class="font-headline text-5xl font-bold text-ocean-bright">€49<span class="text-2xl font-normal text-white/50"> / month</span></p>
+        <p class="font-body text-sm text-white/40">+ affiliate commission</p>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12">
+
+      <!-- What we need -->
+      <div data-reveal="left">
+        <h3 class="font-body text-xs font-medium uppercase tracking-[0.25em] text-ocean-bright mb-8">What we need from you</h3>
+
+        <div class="space-y-8">
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Basic Information</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Hotel name</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Website URL</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Reservations email</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Phone number</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Location</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Full address</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">City & country</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Distance to nearest padel court</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Hotel Details</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Star rating</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Number of rooms</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Price range per night</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Short description for travelers</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Padel & Sport Facilities</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">On-site padel courts (yes/no)</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Court booking service</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Racket & ball rental</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Padel lessons / coaching available</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Swimming pool, gym, restaurant</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Affiliate Tracking</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Preferred tracking method (promo code / unique link / check-in mention)</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Agreed commission rate (%)</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Your Contact Details</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Full name</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Role / title</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-ocean-bright mt-1.5"></span><span class="font-body text-sm text-white/60">Direct email</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- What happens after -->
+      <div data-reveal="right">
+        <h3 class="font-body text-xs font-medium uppercase tracking-[0.25em] text-ocean-bright mb-8">What happens after you sign up</h3>
+
+        <div class="space-y-8 mb-12">
+          <div class="flex gap-6">
+            <span class="step-number" style="color: rgba(46,142,196,0.25);">01</span>
+            <div class="pt-3">
+              <h4 class="font-headline text-xl font-bold text-white mb-2">Listing reviewed</h4>
+              <p class="font-body text-sm text-white/55 leading-relaxed">Your listing is reviewed within 24 hours of submission.</p>
+            </div>
+          </div>
+          <div class="flex gap-6">
+            <span class="step-number" style="color: rgba(46,142,196,0.25);">02</span>
+            <div class="pt-3">
+              <h4 class="font-headline text-xl font-bold text-white mb-2">Confirmation email</h4>
+              <p class="font-body text-sm text-white/55 leading-relaxed">You receive a confirmation email from the Lobii team.</p>
+            </div>
+          </div>
+          <div class="flex gap-6">
+            <span class="step-number" style="color: rgba(46,142,196,0.25);">03</span>
+            <div class="pt-3">
+              <h4 class="font-headline text-xl font-bold text-white mb-2">Go live</h4>
+              <p class="font-body text-sm text-white/55 leading-relaxed">Your hotel goes live and padel travelers worldwide start discovering you.</p>
+            </div>
+          </div>
+          <div class="flex gap-6">
+            <span class="step-number" style="color: rgba(46,142,196,0.25);">04</span>
+            <div class="pt-3">
+              <h4 class="font-headline text-xl font-bold text-white mb-2">Monthly invoicing</h4>
+              <p class="font-body text-sm text-white/55 leading-relaxed">At the end of each month, Lobii sends an invoice for affiliate commissions on referred bookings.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t border-white/10 pt-8">
+          <p class="font-body text-xs text-white/35 mb-2">Hotel partner enquiries</p>
+          <a href="mailto:hello@lobii.app" class="font-body text-sm text-ocean-bright hover:text-ocean-light transition-colors">hello@lobii.app</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRIVATE HOME SECTION ───────────────────────────────────────────── -->
+<section id="home" class="py-24 px-6 md:px-12 bg-sand">
+  <div class="max-w-screen-xl mx-auto">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-6" data-reveal="up">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-3 h-3 rounded-sm bg-[#2D7A52]"></div>
+          <span class="font-body text-xs font-medium uppercase tracking-[0.25em] text-[#2D7A52]">Private Home Listing</span>
+        </div>
+        <h2 class="font-headline text-5xl md:text-6xl font-bold text-ocean-deep">Home Partner</h2>
+      </div>
+      <div class="text-left md:text-right">
+        <p class="font-headline text-5xl font-bold text-[#1E5B3A]">€19.95<span class="text-2xl font-normal text-ocean-deep/40"> / month</span></p>
+        <p class="font-body text-sm text-ocean-deep/40">flat fee, manage own bookings</p>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12">
+
+      <!-- What we need -->
+      <div data-reveal="left">
+        <h3 class="font-body text-xs font-medium uppercase tracking-[0.25em] text-[#2D7A52] mb-8">What we need from you</h3>
+
+        <div class="space-y-8">
+          <div>
+            <h4 class="font-headline text-xl font-bold text-ocean-deep mb-3">About Your Property</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Property name / title</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Property type (villa, apartment, house, cottage)</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Maximum number of guests</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Number of bedrooms & bathrooms</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Short description for travelers</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-ocean-deep mb-3">Location</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Full address</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">City & country</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Distance to nearest padel court</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Name of nearest padel center (if known)</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-ocean-deep mb-3">Amenities</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Private padel court on property (yes/no)</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Swimming pool</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">WiFi, air conditioning, parking</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">BBQ / outdoor area</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Fully equipped kitchen</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Washing machine</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-ocean-deep mb-3">Pricing & Booking</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Price per night (€)</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Minimum stay (nights)</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">How guests contact you to book (email / WhatsApp / Airbnb / website)</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Your booking contact or link</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Available from (date)</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-ocean-deep mb-3">Your Details</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Full name</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Email address</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Phone / WhatsApp</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-[#2D7A52] mt-1.5"></span><span class="font-body text-sm text-ocean-deep/65">Nationality</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- How it works -->
+      <div data-reveal="right">
+        <h3 class="font-body text-xs font-medium uppercase tracking-[0.25em] text-[#2D7A52] mb-8">How it works for you</h3>
+
+        <div class="home-bg rounded-sm p-8 mb-8">
+          <p class="font-body text-base text-white/75 leading-relaxed">
+            You pay a flat monthly fee of <strong class="text-white">€19.95</strong>. Your property is listed on Lobii and padel travelers worldwide can discover it. You manage all bookings and payments directly with your guests — Lobii does not take any commission on bookings. We simply drive the traffic to you.
+          </p>
+        </div>
+
+        <h3 class="font-body text-xs font-medium uppercase tracking-[0.25em] text-[#2D7A52] mb-6">Data we share with you monthly</h3>
+        <div class="space-y-3 mb-12">
+          <div class="flex gap-4 items-start">
+            <div class="w-8 h-8 bg-[#1E5B3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,8 5,11 12,3" stroke="#4DB87A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="font-body text-sm text-ocean-deep/70">Total listing views</p></div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-8 h-8 bg-[#1E5B3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,8 5,11 12,3" stroke="#4DB87A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="font-body text-sm text-ocean-deep/70">Total enquiry clicks</p></div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-8 h-8 bg-[#1E5B3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,8 5,11 12,3" stroke="#4DB87A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="font-body text-sm text-ocean-deep/70">Peak search periods (when demand is highest near your location)</p></div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-8 h-8 bg-[#1E5B3A] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,8 5,11 12,3" stroke="#4DB87A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="font-body text-sm text-ocean-deep/70">Countries your visitors searched from</p></div>
+          </div>
+        </div>
+
+        <div class="border-t border-ocean-deep/10 pt-8">
+          <p class="font-body text-xs text-ocean-deep/35 mb-2">Home partner enquiries</p>
+          <a href="mailto:hello@lobii.app" class="font-body text-sm text-[#2D7A52] hover:text-[#1E5B3A] transition-colors">hello@lobii.app</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PADEL CENTER SECTION ───────────────────────────────────────────── -->
+<section id="padel-center" class="py-24 px-6 md:px-12 bg-ocean-deep">
+  <div class="max-w-screen-xl mx-auto">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-16 gap-6" data-reveal="up">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-3 h-3 rounded-sm bg-purple-light"></div>
+          <span class="font-body text-xs font-medium uppercase tracking-[0.25em] text-purple-light">Padel Center Listing</span>
+        </div>
+        <h2 class="font-headline text-5xl md:text-6xl font-bold text-white">Padel Center Partner</h2>
+      </div>
+      <div class="text-left md:text-right">
+        <p class="font-headline text-5xl font-bold text-purple-light">€29.95<span class="text-2xl font-normal text-white/50"> / month</span></p>
+        <p class="font-body text-sm text-white/40">flat fee, unlimited visibility</p>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12">
+
+      <!-- What we need -->
+      <div data-reveal="left">
+        <h3 class="font-body text-xs font-medium uppercase tracking-[0.25em] text-purple-light mb-8">What we need from you</h3>
+
+        <div class="space-y-8">
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Basic Information</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Center name</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Website URL</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Booking email</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Phone number</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Short description</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Location</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Full address</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">City & country</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Google Maps link</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Courts</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Total number of courts</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Indoor / outdoor / panoramic courts</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Court surface type</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Price per court per hour (€)</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Facilities & Services</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Online booking system (yes/no)</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Racket & ball rental</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Padel lessons / coaching</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Group clinics & tournaments</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Locker rooms & showers</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Bar / cafe, pro shop, parking</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Floodlit courts</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Wheelchair accessible</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Booking System</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Booking platform used (PlayTomic / Matchi / Bookli / CourtReserve / Playbypoint / own website / other)</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Direct link to your booking system</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Booking contact or phone number</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Opening hours</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Social Media <span class="text-white/30 text-base font-normal">(optional)</span></h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Instagram handle</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Facebook page URL</span></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-headline text-xl font-bold text-white mb-3">Your Contact Details</h4>
+            <ul class="space-y-1.5">
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Full name</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Role (manager, owner, etc.)</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Email</span></li>
+              <li class="flex gap-3"><span class="bullet-dot bg-purple-light mt-1.5"></span><span class="font-body text-sm text-white/60">Phone / WhatsApp</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- How it works -->
+      <div data-reveal="right">
+        <h3 class="font-body text-xs font-medium uppercase tracking-[0.25em] text-purple-light mb-8">How it works for you</h3>
+
+        <div class="padel-bg rounded-sm p-8 mb-8">
+          <p class="font-body text-base text-white/75 leading-relaxed">
+            You pay a flat monthly fee of <strong class="text-white">€29.95</strong>. No hidden commissions, no per-booking charges. Your center is listed on Lobii and padel travelers searching in your area will find you. When they tap "Book a court" they are sent directly to your booking system.
+          </p>
+        </div>
+
+        <h3 class="font-body text-xs font-medium uppercase tracking-[0.25em] text-purple-light mb-6">Data we share with you monthly</h3>
+        <div class="space-y-3 mb-12">
+          <div class="flex gap-4 items-start">
+            <div class="w-8 h-8 bg-[#5B3A8E] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,8 5,11 12,3" stroke="#7B5BBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="font-body text-sm text-white/60">Total profile views</p></div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-8 h-8 bg-[#5B3A8E] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,8 5,11 12,3" stroke="#7B5BBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="font-body text-sm text-white/60">Total "Book a court" clicks</p></div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-8 h-8 bg-[#5B3A8E] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,8 5,11 12,3" stroke="#7B5BBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="font-body text-sm text-white/60">Player nationalities visiting your listing</p></div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-8 h-8 bg-[#5B3A8E] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,8 5,11 12,3" stroke="#7B5BBE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div><p class="font-body text-sm text-white/60">Peak search periods in your area</p></div>
+          </div>
+        </div>
+
+        <div class="border-t border-white/10 pt-8">
+          <p class="font-body text-xs text-white/35 mb-2">Padel center enquiries</p>
+          <a href="mailto:hello@lobii.app" class="font-body text-sm text-purple-light hover:text-purple-light/80 transition-colors">hello@lobii.app</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRICING SUMMARY ────────────────────────────────────────────────── -->
+<section class="py-24 px-6 md:px-12 bg-sand">
+  <div class="max-w-screen-xl mx-auto">
+
+    <div class="text-center mb-16" data-reveal="up">
+      <p class="font-body text-xs font-medium uppercase tracking-[0.25em] text-ocean-bright mb-4">Overview</p>
+      <h2 class="font-headline text-5xl md:text-6xl font-bold text-ocean-deep">Pricing Summary</h2>
+    </div>
+
+    <div data-reveal="up" data-delay="100">
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="bg-ocean-deep">
+              <th class="text-left px-6 py-4 font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-light">Partner Type</th>
+              <th class="text-left px-6 py-4 font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-light">Monthly Fee</th>
+              <th class="text-left px-6 py-4 font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-light">Commission</th>
+              <th class="text-left px-6 py-4 font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-light">Manages Own Bookings</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-ocean-deep/10">
+              <td class="px-6 py-5">
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 rounded-sm bg-ocean-bright flex-shrink-0"></div>
+                  <span class="font-headline text-xl font-bold text-ocean-deep">Hotel</span>
+                </div>
+              </td>
+              <td class="px-6 py-5">
+                <span class="font-headline text-2xl font-bold text-ocean-bright">€49</span>
+                <span class="font-body text-sm text-ocean-deep/50"> / month</span>
+              </td>
+              <td class="px-6 py-5 font-body text-sm text-ocean-deep/65">Yes — on referred bookings</td>
+              <td class="px-6 py-5 font-body text-sm text-ocean-deep/65">No — affiliate model</td>
+            </tr>
+            <tr class="border-b border-ocean-deep/10 bg-sand/50">
+              <td class="px-6 py-5">
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 rounded-sm bg-[#2D7A52] flex-shrink-0"></div>
+                  <span class="font-headline text-xl font-bold text-ocean-deep">Private Home</span>
+                </div>
+              </td>
+              <td class="px-6 py-5">
+                <span class="font-headline text-2xl font-bold text-[#1E5B3A]">€19.95</span>
+                <span class="font-body text-sm text-ocean-deep/50"> / month</span>
+              </td>
+              <td class="px-6 py-5 font-body text-sm text-ocean-deep/65">None</td>
+              <td class="px-6 py-5 font-body text-sm text-ocean-deep/65">Yes — direct with guests</td>
+            </tr>
+            <tr>
+              <td class="px-6 py-5">
+                <div class="flex items-center gap-3">
+                  <div class="w-3 h-3 rounded-sm bg-purple-light flex-shrink-0"></div>
+                  <span class="font-headline text-xl font-bold text-ocean-deep">Padel Center</span>
+                </div>
+              </td>
+              <td class="px-6 py-5">
+                <span class="font-headline text-2xl font-bold text-purple-deep">€29.95</span>
+                <span class="font-body text-sm text-ocean-deep/50"> / month</span>
+              </td>
+              <td class="px-6 py-5 font-body text-sm text-ocean-deep/65">None</td>
+              <td class="px-6 py-5 font-body text-sm text-ocean-deep/65">Yes — own booking system</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOW TO GET LISTED ──────────────────────────────────────────────── -->
+<section id="get-listed" class="py-24 px-6 md:px-12 bg-ocean-deep">
+  <div class="max-w-screen-xl mx-auto">
+
+    <div class="text-center mb-16" data-reveal="up">
+      <p class="font-body text-xs font-medium uppercase tracking-[0.25em] text-ocean-bright mb-4">Simple Process</p>
+      <h2 class="font-headline text-5xl md:text-6xl font-bold text-white">How to get listed</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+      <div class="flex gap-5" data-reveal="up" data-delay="0">
+        <span class="step-number" style="color: rgba(200,230,244,0.2);">1</span>
+        <div class="pt-4">
+          <h3 class="font-headline text-2xl font-bold text-white mb-2">Download the app</h3>
+          <p class="font-body text-sm text-white/50 leading-relaxed">Download the Lobii app or visit lobii.app</p>
+        </div>
+      </div>
+
+      <div class="flex gap-5" data-reveal="up" data-delay="80">
+        <span class="step-number" style="color: rgba(200,230,244,0.2);">2</span>
+        <div class="pt-4">
+          <h3 class="font-headline text-2xl font-bold text-white mb-2">Tap the + button</h3>
+          <p class="font-body text-sm text-white/50 leading-relaxed">Tap the + button at the bottom of the screen</p>
+        </div>
+      </div>
+
+      <div class="flex gap-5" data-reveal="up" data-delay="160">
+        <span class="step-number" style="color: rgba(200,230,244,0.2);">3</span>
+        <div class="pt-4">
+          <h3 class="font-headline text-2xl font-bold text-white mb-2">Choose your type</h3>
+          <p class="font-body text-sm text-white/50 leading-relaxed">Choose your partner type — Hotel, Home or Padel Center</p>
+        </div>
+      </div>
+
+      <div class="flex gap-5" data-reveal="up" data-delay="0">
+        <span class="step-number" style="color: rgba(200,230,244,0.2);">4</span>
+        <div class="pt-4">
+          <h3 class="font-headline text-2xl font-bold text-white mb-2">Fill in the form</h3>
+          <p class="font-body text-sm text-white/50 leading-relaxed">Fill in the registration form — takes about 5 minutes</p>
+        </div>
+      </div>
+
+      <div class="flex gap-5" data-reveal="up" data-delay="80">
+        <span class="step-number" style="color: rgba(200,230,244,0.2);">5</span>
+        <div class="pt-4">
+          <h3 class="font-headline text-2xl font-bold text-white mb-2">Submit</h3>
+          <p class="font-body text-sm text-white/50 leading-relaxed">Submit — we review within 24 hours</p>
+        </div>
+      </div>
+
+      <div class="flex gap-5" data-reveal="up" data-delay="160">
+        <span class="step-number" style="color: rgba(200,230,244,0.2);">6</span>
+        <div class="pt-4">
+          <h3 class="font-headline text-2xl font-bold text-white mb-2">Go live</h3>
+          <p class="font-body text-sm text-white/50 leading-relaxed">Your listing goes live and padel travelers start finding you</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA / QUESTIONS ────────────────────────────────────────────────── -->
+<section class="py-24 px-6 md:px-12 bg-sand">
+  <div class="max-w-screen-xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+
+      <div data-reveal="left">
+        <p class="font-body text-xs font-medium uppercase tracking-[0.25em] text-ocean-bright mb-4">Questions?</p>
+        <h2 class="font-headline text-5xl md:text-6xl font-bold text-ocean-deep mb-6">
+          Happy to answer before you sign up.
+        </h2>
+        <p class="font-body text-base text-ocean-deep/60 leading-relaxed">
+          We are happy to answer any questions before you sign up. Reach out via email or find us on Instagram.
+        </p>
+      </div>
+
+      <div class="space-y-6" data-reveal="right">
+        <div class="flex items-center gap-5 p-6 bg-white/60">
+          <div class="w-10 h-10 bg-ocean-deep flex items-center justify-center flex-shrink-0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7BBFDC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-body text-xs text-ocean-deep/40 mb-0.5">Email</p>
+            <a href="mailto:hello@lobii.app" class="font-body text-sm font-medium text-ocean-deep hover:text-ocean-bright transition-colors">hello@lobii.app</a>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-5 p-6 bg-white/60">
+          <div class="w-10 h-10 bg-ocean-deep flex items-center justify-center flex-shrink-0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7BBFDC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-body text-xs text-ocean-deep/40 mb-0.5">Website</p>
+            <span class="font-body text-sm font-medium text-ocean-deep">lobii.app</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-5 p-6 bg-white/60">
+          <div class="w-10 h-10 bg-ocean-deep flex items-center justify-center flex-shrink-0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7BBFDC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </div>
+          <div>
+            <p class="font-body text-xs text-ocean-deep/40 mb-0.5">Instagram</p>
+            <span class="font-body text-sm font-medium text-ocean-deep">@lobii.app</span>
+          </div>
+        </div>
+
+        <a href="#partner-types"
+           class="block w-full bg-terracotta text-white text-center px-8 py-4 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors">
+          View Partner Options ↑
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ──────────────────────────────────────────────────────────── -->
+<footer class="bg-[#081d2e] w-full">
+  <div class="max-w-screen-xl mx-auto px-6 md:px-12 py-16">
+    <div class="flex flex-col md:flex-row justify-between gap-12">
+
+      <!-- Brand -->
+      <div>
+        <div class="flex items-center gap-2 mb-5">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="8" fill="#0D2B45"/>
+            <text x="7" y="24" font-family="Cormorant, serif" font-size="22" font-weight="700" fill="#F5EDD8">L</text>
+            <circle cx="22" cy="8" r="2.8" fill="#2E8EC4"/>
+            <circle cx="27" cy="8" r="2.8" fill="#C96B3A"/>
+          </svg>
+          <span class="font-headline text-xl font-bold text-sand tracking-tight">LOBII</span>
+        </div>
+        <p class="font-body text-sm text-sand/40 leading-relaxed max-w-xs">
+          Discover padel courts and handpicked hotels wherever you travel. One app, every destination.
+        </p>
+      </div>
+
+      <!-- Links -->
+      <div class="grid grid-cols-2 gap-12 md:gap-20">
+        <div class="flex flex-col gap-3">
+          <span class="font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-bright mb-2">Company</span>
+          <a href="#" class="font-body text-sm text-sand/50 hover:text-sand transition-colors">About</a>
+          <a href="#" class="font-body text-sm text-sand/50 hover:text-sand transition-colors">Press</a>
+          <a href="#" class="font-body text-sm text-sand/50 hover:text-sand transition-colors">Careers</a>
+          <a href="#" class="font-body text-sm text-sand/50 hover:text-sand transition-colors">Privacy Policy</a>
+          <a href="#" class="font-body text-sm text-sand/50 hover:text-sand transition-colors">Terms of Service</a>
+        </div>
+        <div class="flex flex-col gap-3">
+          <span class="font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-bright mb-2">Connect</span>
+          <a href="#" class="font-body text-sm text-sand/50 hover:text-sand transition-colors">Instagram</a>
+          <a href="#" class="font-body text-sm text-sand/50 hover:text-sand transition-colors">LinkedIn</a>
+          <a href="#" class="font-body text-sm text-sand/50 hover:text-sand transition-colors">Twitter / X</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-white/10">
+      <p class="font-body text-xs text-sand/25 tracking-wide">© 2026 Lobii. The world is your court.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── JS ────────────────────────────────────────────────────────────── -->
+<script>
+  const nav = document.getElementById('nav');
+  const navLogo = document.getElementById('nav-logo');
+  const navLinks = nav.querySelectorAll('a.nav-link');
+
+  function updateNav() {
+    const scrolled = window.scrollY > 60;
+    if (scrolled) {
+      nav.classList.add('nav-scrolled');
+      navLogo.classList.remove('text-white');
+      navLogo.classList.add('text-ocean-deep');
+      navLinks.forEach(l => {
+        l.classList.remove('text-white/90', 'hover:text-white');
+        l.classList.add('text-ocean-mid', 'hover:text-ocean-deep');
+      });
+    } else {
+      nav.classList.remove('nav-scrolled');
+      navLogo.classList.add('text-white');
+      navLogo.classList.remove('text-ocean-deep');
+      navLinks.forEach(l => {
+        l.classList.add('text-white/90', 'hover:text-white');
+        l.classList.remove('text-ocean-mid', 'hover:text-ocean-deep');
+      });
+    }
+  }
+
+  window.addEventListener('scroll', updateNav, { passive: true });
+
+  // ── Burger menu ──────────────────────────────────────────
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const burgerLines = burger.querySelectorAll('.burger-line');
+
+  function openMenu() {
+    mobileMenu.style.transform = 'translateX(0)';
+    document.body.style.overflow = 'hidden';
+    burgerLines[0].style.transform = 'translateY(6.5px) rotate(45deg)';
+    burgerLines[1].style.opacity = '0';
+    burgerLines[2].style.transform = 'translateY(-6.5px) rotate(-45deg)';
+  }
+
+  function closeMenu() {
+    mobileMenu.style.transform = 'translateX(100%)';
+    document.body.style.overflow = '';
+    burgerLines[0].style.transform = '';
+    burgerLines[1].style.opacity = '';
+    burgerLines[2].style.transform = '';
+  }
+
+  burger.addEventListener('click', () => {
+    mobileMenu.style.transform === 'translateX(0)' ? closeMenu() : openMenu();
+  });
+
+  mobileMenu.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // ── Scroll-reveal ────────────────────────────────────────
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const el = entry.target;
+      if (entry.isIntersecting) {
+        const delay = el.dataset.delay ? parseInt(el.dataset.delay) : 0;
+        setTimeout(() => el.classList.add('in-view'), delay);
+      } else {
+        el.classList.remove('in-view');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+</script>
+
+</body>
+</html>
