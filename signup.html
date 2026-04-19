@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Lobii | Get Listed</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "ocean-deep":   "#0D2B45",
+            "ocean-mid":    "#1A5F8A",
+            "ocean-bright": "#2E8EC4",
+            "ocean-light":  "#7BBFDC",
+            "ocean-mist":   "#C8E6F4",
+            "sand":         "#F5EDD8",
+            "terracotta":   "#C96B3A",
+            "forest":       "#1E5B3A",
+            "forest-light": "#2D7A52",
+            "purple-deep":  "#5B3A8E",
+            "purple-light": "#7B5BBE",
+          },
+          fontFamily: {
+            headline: ["Cormorant", "Georgia", "serif"],
+            body:     ["DM Sans", "sans-serif"],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: "DM Sans", sans-serif; }
+    h1, h2, h3, h4 { font-family: "Cormorant", Georgia, serif; }
+
+    /* ── Screens ── */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ── Form page wrapper (full-screen bg) ── */
+    .form-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 16px;
+      background: #081d2e;
+    }
+
+    /* ── Card container ── */
+    .form-card {
+      width: 100%;
+      max-width: 560px;
+      background: #F5EDD8;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.45), 0 4px 16px rgba(0,0,0,0.2);
+    }
+
+    /* ── Card header (progress + nav inside card) ── */
+    .card-header {
+      background: #F5EDD8;
+      border-bottom: 1px solid rgba(13,43,69,0.08);
+    }
+    .card-progress-bar {
+      height: 3px;
+      background: rgba(13,43,69,0.08);
+    }
+    .card-progress-fill {
+      height: 3px;
+      transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* ── Step panes ── */
+    .step-pane { display: none; }
+    .step-pane.active {
+      display: block;
+      animation: stepIn 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Form fields ── */
+    .field-input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid #d8d0c0;
+      background: white;
+      font-family: "DM Sans", sans-serif;
+      font-size: 15px;
+      color: #0D2B45;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      border-radius: 0;
+      -webkit-appearance: none;
+    }
+    .field-input:focus {
+      border-color: #2E8EC4;
+      box-shadow: 0 0 0 3px rgba(46,142,196,0.08);
+    }
+    .field-input::placeholder { color: #bbb; }
+    select.field-input {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+    textarea.field-input { resize: none; height: 100px; line-height: 1.65; }
+
+    /* ── Checkboxes ── */
+    .check-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 14px;
+      border: 1.5px solid #e0d8c8;
+      background: white;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+    }
+    .check-item:hover { border-color: #2E8EC4; background: #f8fdff; }
+    .check-item input { width: 16px; height: 16px; flex-shrink: 0; accent-color: #2E8EC4; cursor: pointer; }
+    .check-item label { font-size: 13px; color: #0D2B45; cursor: pointer; font-family: "DM Sans", sans-serif; }
+
+    /* ── Billing toggle ── */
+    .billing-option {
+      flex: 1; text-align: center; padding: 9px 12px;
+      font-size: 12px; font-weight: 500; cursor: pointer;
+      color: rgba(255,255,255,0.4); transition: all 0.2s;
+    }
+    .billing-option.active { background: rgba(255,255,255,0.15); color: white; }
+
+    /* ── Upload ── */
+    .upload-box {
+      border: 2px dashed #d0c8b8; padding: 1.5rem;
+      text-align: center; cursor: pointer;
+      transition: border-color 0.2s; position: relative;
+      overflow: hidden; background: white;
+    }
+    .upload-box:hover { border-color: #2E8EC4; }
+    .upload-box input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+    /* ── Payment modal ── */
+    #payment-modal {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(13,43,69,0.6);
+      align-items: center; justify-content: center;
+    }
+    #payment-modal.open { display: flex; }
+
+    /* ── Dark card step (billing) ── */
+    .step-dark {
+      background: var(--step-dark-bg, #0D2B45);
+    }
+  </style>
+</head>
+<body class="bg-sand text-ocean-deep overflow-x-hidden">
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SCREEN 0: TYPE SELECTOR                             -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="screen active" id="screen-select">
+
+  <nav class="fixed top-0 w-full z-50 bg-ocean-deep">
+    <div class="flex justify-between items-center px-6 md:px-12 py-5 max-w-screen-2xl mx-auto">
+      <a href="index.html" class="flex items-center gap-2">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#0D2B45"/><text x="7" y="24" font-family="Cormorant, serif" font-size="22" font-weight="700" fill="#F5EDD8">L</text><circle cx="22" cy="8" r="2.8" fill="#2E8EC4"/><circle cx="27" cy="8" r="2.8" fill="#C96B3A"/></svg>
+        <span class="font-headline text-2xl font-bold tracking-tight text-white">LOBII</span>
+      </a>
+      <a href="partner.html" class="font-body text-sm text-white/60 hover:text-white transition-colors">← Partner info</a>
+    </div>
+  </nav>
+
+  <header class="relative pt-28 pb-20 bg-ocean-deep overflow-hidden">
+    <div class="absolute inset-0 opacity-10" style="background: radial-gradient(ellipse at 70% 50%, #2E8EC4, transparent 60%)"></div>
+    <div class="relative max-w-screen-xl mx-auto px-6 md:px-12">
+      <p class="font-body text-xs font-medium uppercase tracking-[0.25em] text-ocean-light mb-4">Partner Sign Up</p>
+      <h1 class="font-headline text-6xl md:text-7xl font-bold text-white leading-[0.9] mb-6">List your<br/><em class="text-ocean-light">property.</em></h1>
+      <p class="font-body text-white/60 text-lg max-w-md leading-relaxed">Choose your listing type below. Takes about 5 minutes.</p>
+    </div>
+  </header>
+
+  <section class="py-20 px-6 md:px-12 bg-sand">
+    <div class="max-w-screen-xl mx-auto">
+      <p class="font-body text-xs font-medium uppercase tracking-[0.25em] text-ocean-bright mb-10">What are you listing?</p>
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <div onclick="goTo('hotel')" class="group bg-ocean-deep p-8 flex flex-col cursor-pointer border-2 border-transparent hover:border-ocean-bright transition-all duration-200 rounded-2xl">
+          <div class="w-3 h-3 bg-ocean-bright mb-8"></div>
+          <h3 class="font-headline text-3xl font-bold text-white mb-3">Hotel</h3>
+          <p class="font-body text-sm text-white/55 leading-relaxed mb-8">Hotels, resorts & boutique stays near padel courts.</p>
+          <div class="mt-auto flex items-end justify-between">
+            <div><p class="font-headline text-4xl font-bold text-ocean-bright">€49<span class="text-xl font-normal text-white/40"> /mo</span></p><p class="font-body text-xs text-white/35 mt-1">+ affiliate commission</p></div>
+            <span class="font-body text-sm text-ocean-bright group-hover:translate-x-1 transition-transform inline-block">Get listed →</span>
+          </div>
+        </div>
+
+        <div onclick="goTo('home')" class="group bg-forest p-8 flex flex-col cursor-pointer border-2 border-transparent hover:border-[#4DB87A] transition-all duration-200 rounded-2xl">
+          <div class="w-3 h-3 bg-[#4DB87A] mb-8"></div>
+          <h3 class="font-headline text-3xl font-bold text-white mb-3">Private Home</h3>
+          <p class="font-body text-sm text-white/55 leading-relaxed mb-8">Holiday homes, apartments & villas near padel courts.</p>
+          <div class="mt-auto flex items-end justify-between">
+            <div><p class="font-headline text-4xl font-bold text-[#4DB87A]">€19.95<span class="text-xl font-normal text-white/40"> /mo</span></p><p class="font-body text-xs text-white/35 mt-1">flat fee, manage own bookings</p></div>
+            <span class="font-body text-sm text-[#4DB87A] group-hover:translate-x-1 transition-transform inline-block">Get listed →</span>
+          </div>
+        </div>
+
+        <div onclick="goTo('padel')" class="group bg-purple-deep p-8 flex flex-col cursor-pointer border-2 border-transparent hover:border-purple-light transition-all duration-200 rounded-2xl">
+          <div class="w-3 h-3 bg-purple-light mb-8"></div>
+          <h3 class="font-headline text-3xl font-bold text-white mb-3">Padel Center</h3>
+          <p class="font-body text-sm text-white/55 leading-relaxed mb-8">Clubs, courts & facilities — get found by traveling players.</p>
+          <div class="mt-auto flex items-end justify-between">
+            <div><p class="font-headline text-4xl font-bold text-purple-light">€29.95<span class="text-xl font-normal text-white/40"> /mo</span></p><p class="font-body text-xs text-white/35 mt-1">flat fee, no commissions</p></div>
+            <span class="font-body text-sm text-purple-light group-hover:translate-x-1 transition-transform inline-block">Get listed →</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="mt-12 pt-10 border-t border-ocean-deep/10 flex flex-col md:flex-row gap-8 md:gap-16">
+        <div class="flex gap-4"><div class="w-8 h-8 bg-ocean-deep flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,8 5,11 12,3" stroke="#7BBFDC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p class="font-body text-sm text-ocean-deep/65">Reviewed within 24 hours</p></div>
+        <div class="flex gap-4"><div class="w-8 h-8 bg-ocean-deep flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,8 5,11 12,3" stroke="#7BBFDC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p class="font-body text-sm text-ocean-deep/65">Takes about 5 minutes</p></div>
+        <div class="flex gap-4"><div class="w-8 h-8 bg-ocean-deep flex items-center justify-center flex-shrink-0"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="2,8 5,11 12,3" stroke="#7BBFDC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><p class="font-body text-sm text-ocean-deep/65">Cancel anytime</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- HOTEL FORM — card layout, 6 steps                  -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-hotel">
+  <div class="form-page">
+    <div class="form-card">
+
+      <!-- ── Card header: progress + nav ── -->
+      <div class="card-header">
+        <div class="card-progress-bar">
+          <div class="card-progress-fill" id="hotel-progress-fill" style="width:0%"></div>
+        </div>
+        <div class="flex items-center justify-between px-5 py-3">
+          <button onclick="prevStep()" class="flex items-center gap-1.5 font-body text-sm text-ocean-mid/50 hover:text-ocean-deep transition-colors">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Back
+          </button>
+          <div class="flex items-center gap-2">
+            <div id="hotel-progress-dots" class="flex gap-1.5 items-center"></div>
+            <span id="hotel-step-label" class="font-body text-xs text-ocean-mid/40 tabular-nums">1 / 6</span>
+          </div>
+          <a href="index.html" class="flex items-center gap-1.5">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#0D2B45"/><text x="7" y="24" font-family="Cormorant, serif" font-size="22" font-weight="700" fill="#F5EDD8">L</text><circle cx="22" cy="8" r="2.8" fill="#2E8EC4"/><circle cx="27" cy="8" r="2.8" fill="#C96B3A"/></svg>
+            <span class="font-headline text-base font-bold text-ocean-deep tracking-tight hidden sm:block">LOBII</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Step 1: About you ── -->
+      <div class="step-pane" id="hotel-1">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-bright mb-4">About you</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">First, a bit<br/><em>about you.</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">So we can reach you — even if you don't finish right now.</p>
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Your full name *</label><input type="text" class="field-input" placeholder="Anna Smith"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Your role</label><input type="text" class="field-input" placeholder="Sales Manager"></div>
+            </div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Your direct email *</label><input type="email" class="field-input" placeholder="anna@yourhotel.com"></div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Your phone</label><input type="tel" class="field-input" placeholder="+34 93 123 4567"></div>
+          </div>
+          <div class="flex items-center gap-4 mt-7">
+            <button onclick="nextStep()" class="bg-ocean-deep text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-ocean-mid transition-colors">Continue →</button>
+            <span class="font-body text-xs text-ocean-deep/20">Press Enter ↵</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Step 2: Hotel basics ── -->
+      <div class="step-pane" id="hotel-2">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-bright mb-4">About your hotel</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">Tell us about<br/><em>your hotel.</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">The basics to get your listing started.</p>
+          <div class="space-y-3">
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Hotel name *</label><input type="text" class="field-input" placeholder="e.g. Hotel Arts Barcelona"></div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Website</label><input type="url" class="field-input" placeholder="https://yourhotel.com"></div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Star rating</label><select class="field-input"><option>3 stars</option><option>4 stars</option><option selected>5 stars</option><option>Boutique</option></select></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Number of rooms</label><input type="number" class="field-input" placeholder="80"></div>
+            </div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Price range per night</label><select class="field-input"><option>Under €100</option><option>€100 – €200</option><option selected>€200 – €400</option><option>€400+</option></select></div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-ocean-deep text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-ocean-mid transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 3: Location ── -->
+      <div class="step-pane" id="hotel-3">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-bright mb-4">Location</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">Where is<br/><em>your hotel?</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">We use this to match you with nearby padel courts.</p>
+          <div class="space-y-3">
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Full address *</label><input type="text" class="field-input" placeholder="Street, number"></div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">City *</label><input type="text" class="field-input" placeholder="Barcelona"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Country *</label><input type="text" class="field-input" placeholder="Spain"></div>
+            </div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Distance to nearest padel court</label><select class="field-input"><option>On-site (we have courts)</option><option>Less than 500m</option><option>500m – 1km</option><option>1km – 3km</option><option>More than 3km</option></select></div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-ocean-deep text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-ocean-mid transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 4: Reservations contact & Description ── -->
+      <div class="step-pane" id="hotel-4">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-bright mb-4">Contact & description</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">How do guests<br/><em>reach you?</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">And tell us what makes your hotel special.</p>
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Reservations email *</label><input type="email" class="field-input" placeholder="reservations@yourhotel.com"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Phone *</label><input type="tel" class="field-input" placeholder="+34 93 123 4567"></div>
+            </div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Short description *</label><textarea class="field-input" placeholder="Describe your hotel and why it's great for padel travelers..."></textarea></div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-ocean-deep text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-ocean-mid transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 5: Facilities + Affiliate + Photos ── -->
+      <div class="step-pane" id="hotel-5">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-bright mb-4">Facilities & photos</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">What do you<br/><em>offer guests?</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-6">Select all that apply, then add photos and affiliate preference.</p>
+          <div class="grid grid-cols-2 gap-1.5 mb-5">
+            <div class="check-item"><input type="checkbox" id="h1"><label for="h1">On-site padel courts</label></div>
+            <div class="check-item"><input type="checkbox" id="h2"><label for="h2">Court booking service</label></div>
+            <div class="check-item"><input type="checkbox" id="h3"><label for="h3">Racket & ball rental</label></div>
+            <div class="check-item"><input type="checkbox" id="h4"><label for="h4">Padel lessons</label></div>
+            <div class="check-item"><input type="checkbox" id="h5"><label for="h5">Swimming pool</label></div>
+            <div class="check-item"><input type="checkbox" id="h6"><label for="h6">Gym / fitness</label></div>
+            <div class="check-item"><input type="checkbox" id="h7"><label for="h7">Restaurant on-site</label></div>
+            <div class="check-item"><input type="checkbox" id="h8"><label for="h8">Airport transfer</label></div>
+          </div>
+          <div class="space-y-3">
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Preferred affiliate tracking</label><select class="field-input"><option>Promo code (LOBII)</option><option>Unique booking link</option><option>Guest mentions Lobii at check-in</option></select></div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Commission rate (%)</label><input type="number" class="field-input" placeholder="e.g. 10" min="0" max="20"><p class="font-body text-xs text-ocean-deep/35 mt-1.5">Standard rate is 10%. Negotiable with the Lobii team.</p></div>
+            <div class="upload-box"><input type="file" accept="image/*" multiple><p class="font-body text-sm font-medium text-ocean-deep mb-1">Upload photos <span class="text-xs text-ocean-bright font-normal">(up to 10)</span></p><p class="font-body text-xs text-ocean-deep/40">JPG or PNG · Max 10MB each · First photo = cover</p></div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-ocean-deep text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-ocean-mid transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 6: Billing & Submit ── -->
+      <div class="step-pane" id="hotel-6">
+        <div class="px-8 pt-7 pb-8 bg-ocean-deep">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-light mb-4">Final step</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-white leading-[0.92] mb-2">Choose your<br/><em class="text-ocean-light">billing plan.</em></h2>
+          <p class="font-body text-white/50 text-sm mb-7">You can cancel anytime. Annual billing saves 15%.</p>
+          <div class="bg-white/8 border border-white/10 p-6 mb-5 rounded-lg">
+            <div class="flex mb-5 rounded overflow-hidden border border-white/10">
+              <div class="billing-option active" onclick="setBilling('hotel','monthly',this)">Monthly</div>
+              <div class="billing-option" onclick="setBilling('hotel','annual',this)">Annual <span class="text-[9px] bg-terracotta text-white px-1.5 py-0.5 ml-1 rounded-sm">-15%</span></div>
+            </div>
+            <p class="font-headline text-4xl font-bold text-ocean-bright mb-1" id="hotel-price">€49<span class="text-xl font-normal text-white/50">/mo</span></p>
+            <p class="font-body text-xs text-white/40 mb-1" id="hotel-annual-note" style="display:none">€499.80/year · saves €88.20</p>
+            <p class="font-body text-xs text-white/40">+ affiliate commission on referred bookings</p>
+          </div>
+          <div class="flex items-start gap-3 mb-6">
+            <input type="checkbox" id="h-agree" class="mt-0.5 flex-shrink-0" style="accent-color:#2E8EC4;">
+            <label for="h-agree" class="font-body text-sm text-white/55 leading-relaxed cursor-pointer">I agree to the <a href="#" class="text-ocean-bright underline">Lobii Partner Terms</a> and understand the listing fee of €49/mo and affiliate commission structure.</label>
+          </div>
+          <button onclick="handleSubmit('hotel')" id="hotel-submit-btn" class="w-full bg-terracotta text-white py-4 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors rounded">
+            Submit hotel listing →
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /form-card -->
+  </div><!-- /form-page -->
+</div><!-- /screen-hotel -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- HOME FORM — card layout, 6 steps                   -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-home">
+  <div class="form-page">
+    <div class="form-card">
+
+      <!-- ── Card header ── -->
+      <div class="card-header">
+        <div class="card-progress-bar">
+          <div class="card-progress-fill" id="home-progress-fill" style="width:0%"></div>
+        </div>
+        <div class="flex items-center justify-between px-5 py-3">
+          <button onclick="prevStep()" class="flex items-center gap-1.5 font-body text-sm text-ocean-mid/50 hover:text-ocean-deep transition-colors">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Back
+          </button>
+          <div class="flex items-center gap-2">
+            <div id="home-progress-dots" class="flex gap-1.5 items-center"></div>
+            <span id="home-step-label" class="font-body text-xs text-ocean-mid/40 tabular-nums">1 / 6</span>
+          </div>
+          <a href="index.html" class="flex items-center gap-1.5">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#0D2B45"/><text x="7" y="24" font-family="Cormorant, serif" font-size="22" font-weight="700" fill="#F5EDD8">L</text><circle cx="22" cy="8" r="2.8" fill="#2E8EC4"/><circle cx="27" cy="8" r="2.8" fill="#C96B3A"/></svg>
+            <span class="font-headline text-base font-bold text-ocean-deep tracking-tight hidden sm:block">LOBII</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Step 1: About you ── -->
+      <div class="step-pane" id="home-1">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-[#4DB87A] mb-4">About you</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">First, a bit<br/><em>about you.</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">So we can reach you — even if you don't finish right now.</p>
+          <div class="space-y-3">
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Your full name *</label><input type="text" class="field-input" placeholder="Maria Garcia"></div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Email *</label><input type="email" class="field-input" placeholder="maria@email.com"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Phone / WhatsApp *</label><input type="tel" class="field-input" placeholder="+34 612 345 678"></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 mt-7">
+            <button onclick="nextStep()" class="bg-forest text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#164a2f] transition-colors">Continue →</button>
+            <span class="font-body text-xs text-ocean-deep/20">Press Enter ↵</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Step 2: Property basics ── -->
+      <div class="step-pane" id="home-2">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-[#4DB87A] mb-4">About your property</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">Tell us about<br/><em>your home.</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">A few details about the property itself.</p>
+          <div class="space-y-3">
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Property name / title *</label><input type="text" class="field-input" placeholder="e.g. Sunny villa with padel court view"></div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Property type</label><select class="field-input"><option>Villa</option><option>Apartment</option><option>House</option><option>Cottage</option><option>Other</option></select></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Max guests</label><input type="number" class="field-input" placeholder="4" min="1"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Bedrooms</label><input type="number" class="field-input" placeholder="2" min="1"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Bathrooms</label><input type="number" class="field-input" placeholder="1" min="1"></div>
+            </div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-forest text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#164a2f] transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 3: Location ── -->
+      <div class="step-pane" id="home-3">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-[#4DB87A] mb-4">Location</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">Where is<br/><em>your property?</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">We'll match guests with nearby padel courts.</p>
+          <div class="space-y-3">
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Full address *</label><input type="text" class="field-input" placeholder="Street, number"></div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">City *</label><input type="text" class="field-input" placeholder="Marbella"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Country *</label><input type="text" class="field-input" placeholder="Spain"></div>
+            </div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Distance to nearest padel court</label><select class="field-input"><option>We have an on-site court</option><option>Less than 500m</option><option>500m – 1km</option><option>1km – 3km</option><option>More than 3km</option></select></div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Name of nearest padel center</label><input type="text" class="field-input" placeholder="e.g. Club Padel Marbella"></div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-forest text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#164a2f] transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 4: Description + Amenities ── -->
+      <div class="step-pane" id="home-4">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-[#4DB87A] mb-4">Description & amenities</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">What makes it<br/><em>special?</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-6">Describe it and tick all available amenities.</p>
+          <div class="space-y-3">
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Short description *</label><textarea class="field-input" placeholder="Describe your property and why padel travelers will love it..."></textarea></div>
+            <div class="grid grid-cols-2 gap-1.5 mt-1">
+              <div class="check-item"><input type="checkbox" id="ho1"><label for="ho1">Private padel court</label></div>
+              <div class="check-item"><input type="checkbox" id="ho2"><label for="ho2">Swimming pool</label></div>
+              <div class="check-item"><input type="checkbox" id="ho3"><label for="ho3">WiFi</label></div>
+              <div class="check-item"><input type="checkbox" id="ho4"><label for="ho4">Air conditioning</label></div>
+              <div class="check-item"><input type="checkbox" id="ho5"><label for="ho5">Parking</label></div>
+              <div class="check-item"><input type="checkbox" id="ho6"><label for="ho6">BBQ / outdoor area</label></div>
+              <div class="check-item"><input type="checkbox" id="ho7"><label for="ho7">Equipped kitchen</label></div>
+              <div class="check-item"><input type="checkbox" id="ho8"><label for="ho8">Washing machine</label></div>
+            </div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-forest text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#164a2f] transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 5: Pricing & Booking + Photos ── -->
+      <div class="step-pane" id="home-5">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-[#4DB87A] mb-4">Pricing & booking</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">How do guests<br/><em>book & pay?</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">You manage your own bookings directly with guests.</p>
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Price per night (€) *</label><input type="number" class="field-input" placeholder="150" min="0"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Min. stay (nights)</label><input type="number" class="field-input" placeholder="3" min="1"></div>
+            </div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">How guests contact you to book *</label><select class="field-input"><option>Email</option><option>Phone / WhatsApp</option><option>Airbnb (link)</option><option>My own booking website</option><option>Other</option></select></div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Booking contact / link *</label><input type="text" class="field-input" placeholder="your@email.com or phone or URL"><p class="font-body text-xs text-ocean-deep/35 mt-1.5">This is what guests see when they tap "Book now".</p></div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Available from</label><input type="date" class="field-input"></div>
+            <div class="upload-box"><input type="file" accept="image/*" multiple><p class="font-body text-sm font-medium text-ocean-deep mb-1">Upload photos <span class="text-xs text-[#4DB87A] font-normal">(up to 10)</span></p><p class="font-body text-xs text-ocean-deep/40">JPG or PNG · Max 10MB each</p></div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-forest text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#164a2f] transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 6: Billing & Submit ── -->
+      <div class="step-pane" id="home-6">
+        <div class="px-8 pt-7 pb-8 bg-forest">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-[#4DB87A] mb-4">Final step</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-white leading-[0.92] mb-2">Choose your<br/><em class="text-[#4DB87A]">billing plan.</em></h2>
+          <p class="font-body text-white/50 text-sm mb-7">You can cancel anytime. Annual billing saves 15%.</p>
+          <div class="bg-white/8 border border-white/10 p-6 mb-5 rounded-lg">
+            <div class="flex mb-5 rounded overflow-hidden border border-white/10">
+              <div class="billing-option active" onclick="setBilling('home','monthly',this)">Monthly</div>
+              <div class="billing-option" onclick="setBilling('home','annual',this)">Annual <span class="text-[9px] bg-terracotta text-white px-1.5 py-0.5 ml-1 rounded-sm">-15%</span></div>
+            </div>
+            <p class="font-headline text-4xl font-bold text-[#4DB87A] mb-1" id="home-price">€19.95<span class="text-xl font-normal text-white/50">/mo</span></p>
+            <p class="font-body text-xs text-white/40 mb-1" id="home-annual-note" style="display:none">€203.52/year · saves €35.88</p>
+            <p class="font-body text-xs text-white/40">Flat fee — you manage your own bookings</p>
+          </div>
+          <div class="flex items-start gap-3 mb-6">
+            <input type="checkbox" id="ho-agree" class="mt-0.5 flex-shrink-0" style="accent-color:#4DB87A;">
+            <label for="ho-agree" class="font-body text-sm text-white/55 leading-relaxed cursor-pointer">I agree to the <a href="#" class="text-[#4DB87A] underline">Lobii Partner Terms</a> and understand the monthly fee of €19.95. I manage my own bookings directly with guests.</label>
+          </div>
+          <button onclick="handleSubmit('home')" id="home-submit-btn" class="w-full bg-terracotta text-white py-4 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors rounded">
+            Submit home listing →
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /form-card -->
+  </div><!-- /form-page -->
+</div><!-- /screen-home -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PADEL CENTER FORM — card layout, 6 steps           -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-padel">
+  <div class="form-page">
+    <div class="form-card">
+
+      <!-- ── Card header ── -->
+      <div class="card-header">
+        <div class="card-progress-bar">
+          <div class="card-progress-fill" id="padel-progress-fill" style="width:0%"></div>
+        </div>
+        <div class="flex items-center justify-between px-5 py-3">
+          <button onclick="prevStep()" class="flex items-center gap-1.5 font-body text-sm text-ocean-mid/50 hover:text-ocean-deep transition-colors">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Back
+          </button>
+          <div class="flex items-center gap-2">
+            <div id="padel-progress-dots" class="flex gap-1.5 items-center"></div>
+            <span id="padel-step-label" class="font-body text-xs text-ocean-mid/40 tabular-nums">1 / 6</span>
+          </div>
+          <a href="index.html" class="flex items-center gap-1.5">
+            <svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#0D2B45"/><text x="7" y="24" font-family="Cormorant, serif" font-size="22" font-weight="700" fill="#F5EDD8">L</text><circle cx="22" cy="8" r="2.8" fill="#2E8EC4"/><circle cx="27" cy="8" r="2.8" fill="#C96B3A"/></svg>
+            <span class="font-headline text-base font-bold text-ocean-deep tracking-tight hidden sm:block">LOBII</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ── Step 1: About you ── -->
+      <div class="step-pane" id="padel-1">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-purple-light mb-4">About you</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">First, a bit<br/><em>about you.</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">So we can reach you — even if you don't finish right now.</p>
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Your full name *</label><input type="text" class="field-input" placeholder="Carlos Lopez"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Your role</label><input type="text" class="field-input" placeholder="Club Manager, Owner"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Your email *</label><input type="email" class="field-input" placeholder="carlos@yourclub.com"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Your phone</label><input type="tel" class="field-input" placeholder="+34 612 345 678"></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-4 mt-7">
+            <button onclick="nextStep()" class="bg-purple-deep text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#4a2e78] transition-colors">Continue →</button>
+            <span class="font-body text-xs text-ocean-deep/20">Press Enter ↵</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Step 2: Center basics ── -->
+      <div class="step-pane" id="padel-2">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-purple-light mb-4">About your center</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">Tell us about<br/><em>your center.</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">Basic info to get your listing going.</p>
+          <div class="space-y-3">
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Center name *</label><input type="text" class="field-input" placeholder="e.g. Club Padel Barcelona Nord"></div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Website</label><input type="url" class="field-input" placeholder="https://yourclub.com"></div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Booking email *</label><input type="email" class="field-input" placeholder="info@yourclub.com"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Phone *</label><input type="tel" class="field-input" placeholder="+34 93 123 4567"></div>
+            </div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-purple-deep text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#4a2e78] transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 3: Location ── -->
+      <div class="step-pane" id="padel-3">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-purple-light mb-4">Location</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">Where is<br/><em>your center?</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">So players can find you on the map.</p>
+          <div class="space-y-3">
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Full address *</label><input type="text" class="field-input" placeholder="Street, number"></div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">City *</label><input type="text" class="field-input" placeholder="Barcelona"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Country *</label><input type="text" class="field-input" placeholder="Spain"></div>
+            </div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Google Maps link</label><input type="url" class="field-input" placeholder="https://maps.google.com/..."></div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-purple-deep text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#4a2e78] transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 4: Courts & Description ── -->
+      <div class="step-pane" id="padel-4">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-purple-light mb-4">Courts</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">Tell us about<br/><em>your courts.</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-7">And describe what makes your center special.</p>
+          <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Total courts *</label><input type="number" class="field-input" placeholder="6" min="1"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Indoor courts</label><input type="number" class="field-input" placeholder="2" min="0"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Outdoor courts</label><input type="number" class="field-input" placeholder="4" min="0"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Price per hour (€)</label><input type="number" class="field-input" placeholder="18" min="0"></div>
+            </div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Surface type</label><select class="field-input"><option>Artificial grass</option><option>Artificial grass + sand</option><option>Hard court</option><option>Mixed</option></select></div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Short description *</label><textarea class="field-input" placeholder="Tell players what makes your center special..."></textarea></div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-purple-deep text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#4a2e78] transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 5: Facilities + Booking + Social + Photos ── -->
+      <div class="step-pane" id="padel-5">
+        <div class="px-8 pt-7 pb-8">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-purple-light mb-4">Facilities & booking</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-ocean-deep leading-[0.92] mb-2">What do you<br/><em>offer players?</em></h2>
+          <p class="font-body text-ocean-mid/55 text-sm mb-6">Select all that apply, then tell us how players book.</p>
+          <div class="grid grid-cols-2 gap-1.5 mb-5">
+            <div class="check-item"><input type="checkbox" id="p1"><label for="p1">Online booking</label></div>
+            <div class="check-item"><input type="checkbox" id="p2"><label for="p2">Racket & ball rental</label></div>
+            <div class="check-item"><input type="checkbox" id="p3"><label for="p3">Padel coaching</label></div>
+            <div class="check-item"><input type="checkbox" id="p4"><label for="p4">Clinics & tournaments</label></div>
+            <div class="check-item"><input type="checkbox" id="p5"><label for="p5">Locker rooms</label></div>
+            <div class="check-item"><input type="checkbox" id="p6"><label for="p6">Bar / café</label></div>
+            <div class="check-item"><input type="checkbox" id="p7"><label for="p7">Pro shop</label></div>
+            <div class="check-item"><input type="checkbox" id="p8"><label for="p8">Parking</label></div>
+            <div class="check-item"><input type="checkbox" id="p9"><label for="p9">Floodlit courts</label></div>
+            <div class="check-item"><input type="checkbox" id="p10"><label for="p10">Wheelchair accessible</label></div>
+          </div>
+          <div class="space-y-3">
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Booking platform</label><select class="field-input"><option>PlayTomic</option><option>Matchi</option><option>Bookli</option><option>CourtReserve</option><option>Own website</option><option>Phone/email only</option><option>Other</option></select></div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Direct booking link</label><input type="url" class="field-input" placeholder="https://playtomicapp.com/clubs/your-club"></div>
+            <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Opening hours</label><input type="text" class="field-input" placeholder="Mon–Sun 08:00–22:00"></div>
+            <div class="grid grid-cols-2 gap-3">
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Instagram</label><input type="text" class="field-input" placeholder="@yourclub"></div>
+              <div><label class="block font-body text-xs font-medium text-ocean-deep/45 mb-1.5 uppercase tracking-wider">Facebook</label><input type="url" class="field-input" placeholder="facebook.com/yourclub"></div>
+            </div>
+            <div class="upload-box"><input type="file" accept="image/*" multiple><p class="font-body text-sm font-medium text-ocean-deep mb-1">Upload photos <span class="text-xs text-purple-light font-normal">(up to 10)</span></p><p class="font-body text-xs text-ocean-deep/40">JPG or PNG · Max 10MB each</p></div>
+          </div>
+          <button onclick="nextStep()" class="mt-7 bg-purple-deep text-white px-8 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#4a2e78] transition-colors">Continue →</button>
+        </div>
+      </div>
+
+      <!-- ── Step 6: Billing & Submit ── -->
+      <div class="step-pane" id="padel-6">
+        <div class="px-8 pt-7 pb-8 bg-purple-deep">
+          <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-purple-light mb-4">Final step</p>
+          <h2 class="font-headline text-4xl md:text-5xl font-bold text-white leading-[0.92] mb-2">Choose your<br/><em class="text-purple-light">billing plan.</em></h2>
+          <p class="font-body text-white/50 text-sm mb-7">You can cancel anytime. Annual billing saves 15%.</p>
+          <div class="bg-white/8 border border-white/10 p-6 mb-5 rounded-lg">
+            <div class="flex mb-5 rounded overflow-hidden border border-white/10">
+              <div class="billing-option active" onclick="setBilling('padel','monthly',this)">Monthly</div>
+              <div class="billing-option" onclick="setBilling('padel','annual',this)">Annual <span class="text-[9px] bg-terracotta text-white px-1.5 py-0.5 ml-1 rounded-sm">-15%</span></div>
+            </div>
+            <p class="font-headline text-4xl font-bold text-purple-light mb-1" id="padel-price">€29.95<span class="text-xl font-normal text-white/50">/mo</span></p>
+            <p class="font-body text-xs text-white/40 mb-1" id="padel-annual-note" style="display:none">€305.52/year · saves €53.88</p>
+            <p class="font-body text-xs text-white/40">Flat fee — no commissions</p>
+          </div>
+          <div class="flex items-start gap-3 mb-6">
+            <input type="checkbox" id="p-agree" class="mt-0.5 flex-shrink-0" style="accent-color:#7B5BBE;">
+            <label for="p-agree" class="font-body text-sm text-white/55 leading-relaxed cursor-pointer">I agree to the <a href="#" class="text-purple-light underline">Lobii Partner Terms</a> and understand the flat monthly fee of €29.95 with no hidden commissions.</label>
+          </div>
+          <button onclick="handleSubmit('padel')" id="padel-submit-btn" class="w-full bg-terracotta text-white py-4 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors rounded">
+            Submit center listing →
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /form-card -->
+  </div><!-- /form-page -->
+</div><!-- /screen-padel -->
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- SUCCESS SCREEN                                      -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-success">
+  <div class="min-h-screen bg-ocean-deep flex items-center justify-center px-6 py-32">
+    <div class="max-w-lg text-center">
+      <div class="w-16 h-16 bg-ocean-bright/20 flex items-center justify-center mx-auto mb-10 rounded-full">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><polyline points="4,15 10,21 24,7" stroke="#7BBFDC" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <p class="font-body text-xs font-medium uppercase tracking-[0.25em] text-ocean-light mb-4">Submitted</p>
+      <h2 class="font-headline text-5xl md:text-6xl font-bold text-white mb-6" id="s-title">You're listed!</h2>
+      <p class="font-body text-white/60 text-lg leading-relaxed mb-12" id="s-sub">Welcome to Lobii. Your listing will be reviewed and go live within 24 hours.</p>
+      <div class="bg-white/5 border border-white/10 p-8 text-left mb-12">
+        <p class="font-body text-xs font-medium uppercase tracking-[0.2em] text-ocean-bright mb-4">What happens next</p>
+        <div class="space-y-3">
+          <div class="flex gap-4"><span class="font-body text-xs text-ocean-bright flex-shrink-0 mt-0.5">01</span><p class="font-body text-sm text-white/60">We review your listing within 24 hours</p></div>
+          <div class="flex gap-4"><span class="font-body text-xs text-ocean-bright flex-shrink-0 mt-0.5">02</span><p class="font-body text-sm text-white/60">You receive a confirmation email from Lobii</p></div>
+          <div class="flex gap-4"><span class="font-body text-xs text-ocean-bright flex-shrink-0 mt-0.5">03</span><p class="font-body text-sm text-white/60">Your listing goes live on Lobii</p></div>
+          <div class="flex gap-4"><span class="font-body text-xs text-ocean-bright flex-shrink-0 mt-0.5">04</span><p class="font-body text-sm text-white/60">Padel travelers in Denmark and Spain discover you</p></div>
+        </div>
+      </div>
+      <a href="index.html" class="inline-block bg-terracotta text-white px-10 py-4 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors">Back to Lobii →</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ -->
+<!-- PAYMENT MODAL (annual billing)                     -->
+<!-- ═══════════════════════════════════════════════════ -->
+<div id="payment-modal">
+  <div class="bg-white max-w-md w-full mx-4 p-10 rounded-2xl">
+    <div class="flex items-center gap-4 mb-8">
+      <div class="w-12 h-12 bg-ocean-deep flex items-center justify-center flex-shrink-0 rounded-lg">
+        <span id="modal-type-dot" class="w-3 h-3 bg-ocean-bright inline-block"></span>
+      </div>
+      <div>
+        <p class="font-headline text-2xl font-bold text-ocean-deep" id="modal-title">Annual hotel listing</p>
+        <p class="font-body text-xs text-ocean-deep/50">Pay once · 12 months · 15% off</p>
+      </div>
+    </div>
+    <div class="bg-sand p-6 mb-6 rounded-lg">
+      <div class="flex justify-between font-body text-sm text-ocean-deep/60 mb-2"><span>Monthly price × 12</span><span id="modal-monthly-val">€49 × 12</span></div>
+      <div class="flex justify-between font-body text-sm text-ocean-deep/60 mb-4"><span>15% annual discount</span><span id="modal-saving" class="text-forest font-medium">-€88.20</span></div>
+      <div class="border-t border-ocean-deep/10 pt-4 flex justify-between font-body text-base font-medium text-ocean-deep"><span>Total due today</span><span id="modal-total" class="text-terracotta">€499.80</span></div>
+    </div>
+    <p class="font-body text-xs font-medium uppercase tracking-[0.15em] text-ocean-deep/40 mb-3">Card details</p>
+    <input type="text" placeholder="Card number" class="field-input mb-3">
+    <div class="grid grid-cols-2 gap-3 mb-6"><input type="text" placeholder="MM / YY" class="field-input"><input type="text" placeholder="CVV" class="field-input"></div>
+    <p class="font-body text-xs text-ocean-deep/40 mb-6 flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="5" width="10" height="8" rx="1" stroke="#aaa" stroke-width="1.5"/><path d="M5 5V4a2 2 0 014 0v1" stroke="#aaa" stroke-width="1.5"/></svg>Secured by Stripe · Cancel anytime after year 1</p>
+    <button id="modal-pay-btn" onclick="completePayment()" class="w-full bg-terracotta text-white py-4 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors mb-3">Pay now →</button>
+    <button onclick="closeModal()" class="w-full py-3 font-body text-sm text-ocean-deep/50 border border-ocean-deep/15 hover:border-ocean-deep/30 transition-colors">Cancel</button>
+  </div>
+</div>
+
+
+<!-- ─── FOOTER ──────────────────────────────────────── -->
+<footer class="bg-[#081d2e] w-full">
+  <div class="max-w-screen-xl mx-auto px-6 md:px-12 py-12">
+    <div class="flex flex-col md:flex-row justify-between items-start gap-8">
+      <a href="index.html" class="flex items-center gap-2">
+        <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#0D2B45"/><text x="7" y="24" font-family="Cormorant, serif" font-size="22" font-weight="700" fill="#F5EDD8">L</text><circle cx="22" cy="8" r="2.8" fill="#2E8EC4"/><circle cx="27" cy="8" r="2.8" fill="#C96B3A"/></svg>
+        <span class="font-headline text-xl font-bold text-sand tracking-tight">LOBII</span>
+      </a>
+      <p class="font-body text-xs text-sand/25 tracking-wide self-end">© 2025 Lobii. Denmark & Spain is your court.</p>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  /* ── State ── */
+  let currentType = null;
+  let currentStep = 1;
+  const TOTAL_STEPS = 6;
+
+  const accentColors = { hotel: '#2E8EC4', home: '#4DB87A', padel: '#7B5BBE' };
+
+  const pricing = {
+    hotel: { monthly: '€49',    annual: '€41.65', annualTotal: '€499.80', saving: '-€88.20', annualNote: '€499.80/year · saves €88.20', moRaw: '€49 × 12' },
+    home:  { monthly: '€19.95', annual: '€16.96', annualTotal: '€203.52', saving: '-€35.88', annualNote: '€203.52/year · saves €35.88', moRaw: '€19.95 × 12' },
+    padel: { monthly: '€29.95', annual: '€25.46', annualTotal: '€305.52', saving: '-€53.88', annualNote: '€305.52/year · saves €53.88', moRaw: '€29.95 × 12' },
+  };
+  const billingState = { hotel: 'monthly', home: 'monthly', padel: 'monthly' };
+  let activeType = 'hotel';
+
+  /* ── Navigation ── */
+  function goTo(type) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + type).classList.add('active');
+    currentType = type;
+    currentStep = 1;
+    document.getElementById(type + '-progress-fill').style.background = accentColors[type];
+    showCurrentStep();
+    updateProgress();
+    window.scrollTo(0, 0);
+  }
+
+  function nextStep() {
+    if (currentStep < TOTAL_STEPS) {
+      getPane(currentStep).classList.remove('active');
+      currentStep++;
+      showCurrentStep();
+      updateProgress();
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function prevStep() {
+    if (currentStep === 1) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-select').classList.add('active');
+      currentType = null;
+    } else {
+      getPane(currentStep).classList.remove('active');
+      currentStep--;
+      showCurrentStep();
+      updateProgress();
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function showCurrentStep() {
+    document.querySelectorAll('#screen-' + currentType + ' .step-pane').forEach(p => p.classList.remove('active'));
+    getPane(currentStep).classList.add('active');
+  }
+
+  function getPane(step) {
+    return document.getElementById(currentType + '-' + step);
+  }
+
+  /* ── Progress bar & dots (per type) ── */
+  function updateProgress() {
+    const t = currentType;
+    const pct = Math.round((currentStep / TOTAL_STEPS) * 100);
+    document.getElementById(t + '-progress-fill').style.width = pct + '%';
+    document.getElementById(t + '-step-label').textContent = currentStep + ' / ' + TOTAL_STEPS;
+
+    const dots = document.getElementById(t + '-progress-dots');
+    dots.innerHTML = '';
+    const color = accentColors[t];
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const d = document.createElement('div');
+      d.className = 'rounded-full transition-all duration-300';
+      if (i < currentStep) {
+        d.className += ' w-2 h-2'; d.style.background = color; d.style.opacity = '0.5';
+      } else if (i === currentStep) {
+        d.className += ' w-2.5 h-2.5'; d.style.background = color;
+      } else {
+        d.className += ' w-1.5 h-1.5 bg-ocean-mist';
+      }
+      dots.appendChild(d);
+    }
+  }
+
+  /* ── Billing toggle ── */
+  function setBilling(type, period, el) {
+    el.parentElement.querySelectorAll('.billing-option').forEach(o => o.classList.remove('active'));
+    el.classList.add('active');
+    billingState[type] = period;
+    const p = pricing[type];
+    const priceEl = document.getElementById(type + '-price');
+    const noteEl  = document.getElementById(type + '-annual-note');
+    const btnEl   = document.getElementById(type + '-submit-btn');
+    if (period === 'annual') {
+      priceEl.innerHTML = p.annual + '<span class="text-xl font-normal text-white/50">/mo</span>';
+      noteEl.style.display = 'block';
+      noteEl.textContent = p.annualNote;
+      if (btnEl) btnEl.textContent = 'Pay ' + p.annualTotal + ' & submit →';
+    } else {
+      priceEl.innerHTML = p.monthly + '<span class="text-xl font-normal text-white/50">/mo</span>';
+      noteEl.style.display = 'none';
+      if (btnEl) btnEl.textContent = 'Submit listing →';
+    }
+  }
+
+  /* ── Submit ── */
+  function handleSubmit(type) {
+    activeType = type;
+    if (billingState[type] === 'annual') { openModal(type); }
+    else { showSuccess(type, false); }
+  }
+
+  function openModal(type) {
+    const p = pricing[type];
+    const labels = { hotel: 'Annual hotel listing', home: 'Annual home listing', padel: 'Annual padel center listing' };
+    document.getElementById('modal-title').textContent       = labels[type];
+    document.getElementById('modal-monthly-val').textContent = p.moRaw;
+    document.getElementById('modal-saving').textContent      = p.saving;
+    document.getElementById('modal-total').textContent       = p.annualTotal;
+    document.getElementById('modal-pay-btn').textContent     = 'Pay ' + p.annualTotal + ' now →';
+    document.getElementById('payment-modal').classList.add('open');
+  }
+
+  function closeModal() { document.getElementById('payment-modal').classList.remove('open'); }
+  function completePayment() { closeModal(); showSuccess(activeType, true); }
+
+  function showSuccess(type, paid) {
+    const subs = {
+      hotel: 'Your hotel listing is under review. We\'ll be in touch within 24 hours to confirm and set up your affiliate tracking.',
+      home:  'Your home listing is under review. Once approved, padel travelers will discover your property.',
+      padel: 'Your padel center is under review. Once live, players in Denmark and Spain will find you on Lobii.',
+    };
+    document.getElementById('s-title').textContent = paid ? 'Payment confirmed!' : 'Listing submitted!';
+    document.getElementById('s-sub').textContent   = paid ? 'Your annual subscription is active. ' + subs[type] : subs[type];
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-success').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  /* ── Keyboard: Enter to advance ── */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && currentType && currentStep < TOTAL_STEPS) {
+      const active = document.activeElement;
+      if (active && active.tagName === 'TEXTAREA') return;
+      if (active && active.tagName === 'INPUT' && active.type === 'checkbox') return;
+      nextStep();
+    }
+  });
+
+  /* ── Deep-link via ?type= ── */
+  (function() {
+    const t = new URLSearchParams(window.location.search).get('type');
+    if (t && ['hotel','home','padel'].includes(t)) goTo(t);
+  })();
+</script>
+
+</body>
+</html>
