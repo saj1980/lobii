@@ -168,34 +168,34 @@
       style="object-position: center 40%;"
     />
   </div>
-  <!-- Cinematic overlay: dark bottom-left for text, open top-right so video breathes -->
-  <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(8,22,38,0.88) 0%, rgba(8,22,38,0.55) 40%, rgba(8,22,38,0.18) 100%);"></div>
-  <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(8,22,38,0.55) 0%, rgba(8,22,38,0.0) 60%);"></div>
+  <!-- Overlay: strong bottom coverage for readability, lighter top so image breathes -->
+  <div class="absolute inset-0" style="background: linear-gradient(to top, rgba(8,22,38,0.95) 0%, rgba(8,22,38,0.72) 35%, rgba(8,22,38,0.30) 65%, rgba(8,22,38,0.10) 100%);"></div>
+  <div class="absolute inset-0 md:block hidden" style="background: linear-gradient(to right, rgba(8,22,38,0.50) 0%, rgba(8,22,38,0.0) 55%);"></div>
 
-  <div class="relative h-full flex flex-col justify-end pb-20 md:pb-24 px-6 md:px-16 max-w-screen-xl mx-auto w-full">
+  <div class="relative h-full flex flex-col justify-end pb-16 md:pb-24 px-6 md:px-16 max-w-screen-xl mx-auto w-full">
     <div class="max-w-xl">
-      <p class="font-body text-[10px] font-medium uppercase tracking-[0.3em] text-white/50 mb-5">Padel Travel, Elevated</p>
-      <h1 class="font-headline text-5xl md:text-7xl leading-[0.9] font-bold text-white mb-6">
+      <p class="font-body text-[10px] font-medium uppercase tracking-[0.3em] text-white/60 mb-4">Padel Travel, Elevated</p>
+      <h1 class="font-headline text-4xl sm:text-5xl md:text-7xl leading-[0.92] font-bold text-white mb-5">
         Denmark & Spain<br/>
         <em class="not-italic text-ocean-light">is your</em><br/>
         court.
       </h1>
-      <p class="font-body text-base text-white/75 leading-relaxed max-w-sm mb-8">
+      <p class="font-body text-sm md:text-base text-white/80 leading-relaxed max-w-sm mb-7">
         Padel courts and handpicked stays in Denmark and Spain. One app, your next padel trip.
       </p>
 
-      <!-- Dual CTA -->
-      <div class="flex flex-row gap-3">
+      <!-- Dual CTA — stacked on mobile, side by side on sm+ -->
+      <div class="flex flex-col sm:flex-row gap-3">
         <a href="#early-access"
-           class="bg-terracotta text-white px-7 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors rounded-sm whitespace-nowrap">
+           class="text-center bg-terracotta text-white px-7 py-4 font-body text-sm font-medium tracking-wide hover:bg-[#b55a2f] transition-colors rounded-sm">
           Plan my padel trip →
         </a>
         <a href="signup.html"
-           class="bg-white/10 border border-white/25 text-white px-7 py-3.5 font-body text-sm font-medium tracking-wide hover:bg-white/18 transition-colors backdrop-blur-sm rounded-sm whitespace-nowrap">
+           class="text-center bg-white/10 border border-white/30 text-white px-7 py-4 font-body text-sm font-medium tracking-wide hover:bg-white/20 transition-colors backdrop-blur-sm rounded-sm">
           List your property
         </a>
       </div>
-      <p class="font-body text-[10px] text-white/30 mt-4 tracking-wide">For padel travelers &amp; partners across Denmark and Spain.</p>
+      <p class="font-body text-[10px] text-white/35 mt-4 tracking-wide">For padel travelers &amp; partners across Denmark and Spain.</p>
     </div>
   </div>
 
